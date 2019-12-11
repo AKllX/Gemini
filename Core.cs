@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Lextm.SharpSnmpLib;
-
 using Automatak.DNP3.Adapter;
 using Automatak.DNP3.Interface;
 using SnmpSharpNet;
+using log4net;
 
 namespace Gemini
 {
@@ -16,17 +16,22 @@ namespace Gemini
     {
         public static IDNP3Manager DNP3Manager { get; set; }
         public static AgentParameters SNMPParameters { get; private set; }
-        
+        public static ILog Log;
+
         public static void Start()
         {
-            SnmpSharpNet.OctetString community = new SnmpSharpNet.OctetString("cr");
-            SNMPParameters = new AgentParameters(community);
-            SNMPParameters.Version = SnmpVersion.Ver2;
-            if (SNMPParameters != null)
-            {
-                Console.WriteLine("Parâmetros iniciados com sucesso");
-            }
+            //INICIANDO SERVIDOR DE LOGS
+            Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+            //INICIANDO CONFIGURAÇÃO BÁSICA DE SNMP
+            //Communities Comuns: cr e public
+            SnmpSharpNet.OctetString community = new SnmpSharpNet.OctetString("public");
+            SNMPParameters = new AgentParameters(community)
+            {
+                Version = SnmpVersion.Ver2
+            };
+
+            //INICIANDO INTERFACE DNP3
             DNP3Manager = DNP3ManagerFactory.CreateManager(4, new PrintingLogAdapter());
         }
 
