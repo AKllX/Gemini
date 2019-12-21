@@ -126,9 +126,14 @@
     <Compile Include="Database\Adapter\QueryAdapter.cs" />
     <Compile Include="Database\ConnectionStringBuilder.cs" />
     <Compile Include="Database\DatabaseConnection.cs" />
+    <Compile Include="Database\DatabaseManager.cs" />
     <Compile Include="Database\Interfaces\IDatabaseClient.cs" />
     <Compile Include="Database\Interfaces\IQueryAdapter.cs" />
     <Compile Include="Database\Interfaces\IRegularQueryAdapter.cs" />
+    <Compile Include="Data\GeminiMap.cs" />
+    <Compile Include="Data\GeminiPoint.cs" />
+    <Compile Include="Data\SNMP\OidLibrary.cs" />
+    <Compile Include="Data\SNMP\SnmpObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core.cs" />

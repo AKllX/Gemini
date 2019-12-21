@@ -71,7 +71,7 @@ namespace Gemini.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.ToString());
+                    Core.Log.Error(e.ToString());
                 }
             }
         }
