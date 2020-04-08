@@ -37,7 +37,14 @@ namespace Gemini.Data.DNP3
             Id = id;
             Name = name;
             //Considerando uma RTU por Canal
-            Channel = Core.DNP3Manager.AddTCPServer(name, LogLevels.ALL,ServerAcceptMode.CloseExisting, hostAddres.address, hostAddres.port, ChannelListener.Print());
+            if (Core.LoggingEnabled)
+            {
+                Channel = Core.DNP3Manager.AddTCPServer(name, LogLevels.ALL, ServerAcceptMode.CloseExisting, hostAddres.address, hostAddres.port, ChannelListener.Print());
+            }
+            else
+            {
+                Channel = Core.DNP3Manager.AddTCPServer(name, LogLevels.NONE, ServerAcceptMode.CloseExisting, hostAddres.address, hostAddres.port, ChannelListener.Print());
+            }
 
             //Configuração Padrão de RTU é Outstation
             Config = new OutstationStackConfig
@@ -126,21 +133,30 @@ namespace Gemini.Data.DNP3
                                             binValue = true;
                                         }
                                         newValues.Update(new Binary(binValue, 1, DateTime.Now), gp.Dnp3Addr);
-                                        Core.Log.InfoFormat("{2}-> {0} = {1}", Core.OidLibrary.GetLabelFromId(gp.SnmpObjectId), binValue, Name);
+                                        if (Core.LoggingEnabled)
+                                        {
+                                            Core.Log.InfoFormat("{2}-> {0} = {1}", Core.OidLibrary.GetLabelFromId(gp.SnmpObjectId), binValue, Name);
+                                        }
                                     }
                                     break;
                                 case 'A':
                                     {
                                         analogValue = Convert.ToDouble(x.Value.ToString());
                                         newValues.Update(new Analog(analogValue, 1, DateTime.Now), gp.Dnp3Addr);
-                                        Core.Log.InfoFormat("{2}-> {0} = {1}", Core.OidLibrary.GetLabelFromId(gp.SnmpObjectId), analogValue, Name);
+                                        if (Core.LoggingEnabled)
+                                        {
+                                            Core.Log.InfoFormat("{2}-> {0} = {1}", Core.OidLibrary.GetLabelFromId(gp.SnmpObjectId), analogValue, Name);
+                                        }
                                     }
                                     break;
                                 case 'C':
                                     {
                                         counterValue = uint.Parse(x.Value.ToString());
                                         newValues.Update(new Counter(counterValue, 1, DateTime.Now), gp.Dnp3Addr);
-                                        Core.Log.InfoFormat("{2}-> {0} = {1}", Core.OidLibrary.GetLabelFromId(gp.SnmpObjectId), counterValue, Name);
+                                        if (Core.LoggingEnabled)
+                                        {
+                                            Core.Log.InfoFormat("{2}-> {0} = {1}", Core.OidLibrary.GetLabelFromId(gp.SnmpObjectId), counterValue, Name);
+                                        }
                                     }
                                     break;
                             }

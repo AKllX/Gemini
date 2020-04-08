@@ -28,12 +28,14 @@ namespace Gemini
         public static Settings Settings { get; private set; }
         public static RtuManager RtuManager { get; private set; }
         public static OidLibrary OidLibrary { get; private set; }
+        public static bool LoggingEnabled { get; private set; }
 
         private const string db = "gemini";
         private const string host = "10.160.211.99";
 
         public static void Start()
         {
+            LoggingEnabled = false;
             startLogging();
             startDatabaseConnection();
             startSettings();
